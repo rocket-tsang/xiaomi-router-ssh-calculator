@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米/红米路由器 SSH 密码计算器 - 在线计算路由器 SSH 密码</title>
+    
+    <meta name="description" content="小米/红米路由器 SSH 密码在线计算工具，支持所有型号小米路由器，快速获取 SSH 密码，用于刷机、OpenWrt 等操作。">
+    <meta name="keywords" content="小米路由器,红米路由器,SSH密码,密码计算器,路由器刷机,OpenWrt,小米路由器SSH">
+    <meta name="author" content="Xiaomi Router SSH Calculator｜大锋">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="小米/红米路由器 SSH 密码计算器">
+    <meta property="og:description" content="小米/红米路由器 SSH 密码在线计算工具，支持所有型号小米路由器，快速获取 SSH 密码。">
+    <meta property="og:image" content="thumbnail.webp">
+    <meta property="og:url" content="">
+    <meta property="og:locale" content="zh_CN">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="小米/红米路由器 SSH 密码计算器">
+    <meta name="twitter:description" content="小米/红米路由器 SSH 密码在线计算工具，支持所有型号小米路由器，快速获取 SSH 密码。">
+    <meta name="twitter:image" content="thumbnail.webp">
+    
+    <link rel="canonical" href="">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "小米/红米路由器 SSH 密码计算器",
+        "description": "小米/红米路由器 SSH 密码在线计算工具，支持所有型号小米路由器，快速获取 SSH 密码",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        }
+    }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 50px 40px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-copy {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-copy:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-copy:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .instructions {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .instructions h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .instructions a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .instructions a:hover {
+            text-decoration: underline;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>小米/红米路由器 SSH 密码计算器</h1>
+        <p class="subtitle">快速计算您的路由器 SSH 密码，支持所有小米/红米路由器型号</p>
+        
+        <img src="thumbnail.webp" alt="小米路由器" class="hero-image">
+        
+        <div class="input-group">
+            <label for="sn">路由器 SN 号</label>
+            <input type="text" id="sn" placeholder="请输入路由器 SN 号" autocomplete="off">
+        </div>
+
+        <div class="button-group">
+            <button class="btn-calculate" onclick="calculate()">计算密码</button>
+            <button class="btn-copy" id="copyBtn" onclick="copyPassword()" disabled>复制密码</button>
+        </div>
+
+        <div class="result" id="result">
+            <div class="result-label">SSH 密码：</div>
+            <div class="result-value" id="password"></div>
+        </div>
+
+        <div class="instructions">
+            <h3>使用说明</h3>
+            <p>
+                1. 访问路由器管理页面 <a href="http://192.168.31.1" target="_blank">192.168.31.1</a><br>
+                2. 登录后，在主界面右下角找到 SN 号（部分型号可能位置不一致）<br>
+                3. 复制 SN 号粘贴到上方输入框，点击"计算密码"即可获得 SSH 密码
+            </p>
+        </div>
+
+        <div class="footer">
+            MIT Licensed | Copyright © 2026
+        </div>
+    </div>
+
+    <div class="toast" id="toast">已复制到剪贴板</div>
+
+    <script>
+        const salt = {
+            r1d: 'A2E371B0-B34B-48A5-8C40-A7133F3B5D88',
+            others: 'd44fb0960aa0-a5e6-4a30-250f-6d2df50a'
+        };
+
+        function getSalt(sn) {
+            if (sn.indexOf('/') === -1) {
+                return salt.r1d;
+            } else {
+                return swapSalt(salt.others);
+            }
+        }
+
+        function swapSalt(saltStr) {
+            return saltStr.split('-').reverse().join('-');
+        }
+
+        function getPassword(sn) {
+            const saltValue = getSalt(sn);
+            const combined = sn + saltValue;
+            const hash = md5(combined);
+            return hash.substring(0, 8);
+        }
+
+        function calculate() {
+            const snInput = document.getElementById('sn');
+            const sn = snInput.value.trim();
+            
+            if (!sn) {
+                alert('请输入路由器 SN 号');
+                snInput.focus();
+                return;
+            }
+
+            const password = getPassword(sn);
+            
+            document.getElementById('password').textContent = password;
+            document.getElementById('result').classList.add('show');
+            document.getElementById('copyBtn').disabled = false;
+        }
+
+        function copyPassword() {
+            const password = document.getElementById('password').textContent;
+            
+            navigator.clipboard.writeText(password).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                const textArea = document.createElement('textarea');
+                textArea.value = password;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        document.getElementById('sn').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>
