@@ -3,6 +3,10 @@
 ## Project Overview
 小米/红米路由器 SSH 密码计算器 - A web-based tool for calculating SSH passwords for Xiaomi/Redmi routers.
 
+
+- 房贷提前还款计算器演示地址：[https://xiaomi-router-ssh-calculator.gdman.top/](https://xiaomi-router-ssh-calculator.gdman.top/)
+- 作者博客地址： [https://blog.gzsoon.com/](https://blog.gzsoon.com/)
+
 ## Project Type
 - Static web application (HTML/CSS/JavaScript)
 - PHP CLI utility for password calculation

@@ -2,6 +2,10 @@
 
 一个简单易用的在线工具，用于计算小米/红米路由器的 SSH 密码。
 
+
+- 房贷提前还款计算器演示地址：[https://xiaomi-router-ssh-calculator.gdman.top/](https://xiaomi-router-ssh-calculator.gdman.top/)
+- 作者博客地址： [https://blog.gzsoon.com/](https://blog.gzsoon.com/)
+
 ## 功能特点
 
 - 🚀 纯前端实现，无需后端服务器
